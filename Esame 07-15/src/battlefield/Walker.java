@@ -8,20 +8,16 @@ public class Walker extends Robot{
 	}
 
 	@Override
-	public void passo(Battlefield field) {
-		Position nuova = this.decidiDoveAndare(field);
-		if (nuova!=null) {
-			Walker clone = new Walker(nuova);
-			field.addRobot(clone);
-		}
-		this.incrementaLongevita();
-	}
-	
-	public Position decidiDoveAndare(Battlefield field) {
+	public Position decidiMossa(Battlefield field) {
 		Position corrente = this.getPosizione();
 		Position libera = field.posizioneLiberaVicino(corrente);
 		return libera; // verso una posizione libera
 					   // tutto occupato: fermo
+	}
+
+	@Override
+	public Robot creaClone(Position p) {
+		return new Walker(p);
 	}
 }
 

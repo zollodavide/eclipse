@@ -19,13 +19,14 @@ public class Display extends JFrame {
 	private FieldView fieldView;
  
 	private Color getColore(Battlefield field, Position posizione) {
-		Object t = field.getRobot(posizione);
+		Robot t = field.getRobot(posizione);
 	
 		if (t==null) 
 			return Color.white;
 
 		if (t.getClass() == Chaser.class)
 			return Color.orange;
+		
 		if (t.getClass() == Walker.class)
 			return Color.blue;			
 

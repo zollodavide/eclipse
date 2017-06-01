@@ -6,16 +6,7 @@ public class Chaser extends Robot {
 		super(p);
 	}
 	
-	@Override	
-	public void passo(Battlefield field) {
-		Position nuova = this.decidiMossa(field);
-		if (nuova!=null) {
-			Robot clone = new Chaser(nuova);
-			field.addRobot(clone);
-		}
-		this.incrementaLongevita();
-	}
-	
+	@Override
 	public Position decidiMossa(Battlefield field) {
 		Walker inseguito = cercaAvversario(field);
 		if (inseguito==null) 
@@ -36,8 +27,16 @@ public class Chaser extends Robot {
 		return null;
 	}
 
-	private boolean isAvversario(Object avvistato) {
-		return true ; /* è sicuramente un Walker??? per ora SI! */
+	private boolean isAvversario(Robot avvistato) {
+		if(avvistato == null)
+			return false;
+		
+		return avvistato.getClass()==Walker.class;
+	}
+
+	@Override
+	public Robot creaClone(Position p) {
+		return new Chaser(p);
 	}
 
 }

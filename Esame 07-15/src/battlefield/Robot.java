@@ -22,7 +22,21 @@ public abstract class Robot implements Comparable<Robot>{
 		return this.longevita;
 	}
 	
-	public abstract void passo(Battlefield field);
+	public void passo(Battlefield field) {
+		Position nuova = this.decidiMossa(field);
+		
+		if (nuova!=null) {
+			Robot clone = this.creaClone(nuova);
+			field.addRobot(clone);
+		}
+		this.incrementaLongevita();
+	}
+	
+	
+	public abstract Robot creaClone(Position p);
+
+	
+	public abstract Position decidiMossa(Battlefield field);
 
 	@Override
 	public boolean equals(Object obj) {
