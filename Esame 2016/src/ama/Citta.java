@@ -74,7 +74,7 @@ public class Citta {
 	}
 
 	public Posizione getRifiutoVicinoA(Posizione pivot) {
-		int[] delta  = {-1, 0, -1};
+		int[] delta  = {-1, 0, +1};
 		for(int dx : delta)
 			for(int dy : delta) {
 				if (dx==0 && dy==0) continue;

@@ -59,19 +59,19 @@ public class Posizione {
 	/* (DA COMPLETARE VEDI DOMANDA 1) */
 
 	@Override
-	public String toString() {
-		return "("+getX()+","+getY()+")";
+	public int hashCode() {
+		return this.getX()+ this.getY();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		Posizione that = (Posizione)obj;
-		return this.getX()==that.getX() && this.getY()==that.getY();
+		Posizione other = (Posizione) obj;
+		return ( this.getX() == other.getX() && this.getY() == other.getY() );
 	}
 
 	@Override
-	public int hashCode() {
-		return this.getX() + this.getY();
+	public String toString() {
+		return "("+getX()+","+getY()+")";
 	}
 
 }

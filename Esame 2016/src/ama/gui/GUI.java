@@ -94,10 +94,13 @@ public class GUI extends JPanel {
 
 	private void disegnaMezzo(Graphics g, Mezzo mezzo) {
         final Posizione pos = mezzo.getPosizione();
-		
-        Image immagine = mezzo.getPolitica().getImmagine();
-		String ids = mezzo.getPolitica().toString();
-
+		Image immagine = null;
+		String ids = null;
+		/* VEDI DOMANDA 2 */
+		if (mezzo.getPolitica()!=null) {
+			immagine = mezzo.getPolitica().getImmagine();
+			ids = mezzo.getPolitica().toString();
+		}
 		disegnaTesto(g, pos, ids);
 		if (mezzo.getStato()==Mezzo.RACCOLTA) {
 			/* ingrandisce immagine dei mezzi in fase di raccolta scalando x 1.5 */

@@ -41,16 +41,12 @@ public class Mezzo {
 	private Posizione zonaDiRaccolta;
 
 	// (DA CAMBIARE: VEDI DOMANDA 2)
-	//private Chase chase; // per mezzi che seguono politica Chaser
-	//private Brown brown; // per mezzi che seguono politica Browniana
 	private Politica politica;
 
 	private Posizione posizione;
 
 	private Set<Rifiuto> carico;
 	
-	
-
 	public Mezzo(Simulatore simulatore, Politica politica) {
 		this(simulatore);
 		this.politica = politica;
@@ -78,8 +74,6 @@ public class Mezzo {
 	public Posizione getPosizione() {
 		return this.posizione;
 	}
-
-
 
 	/* DA CAMBIARE: VEDI DOMANDA 2 */
 	public Politica getPolitica() {
@@ -127,9 +121,10 @@ public class Mezzo {
 	private void eseguiRaccolta() {
 		final int passo = this.simulatore.getTempo();
 		final Posizione corrente = this.getPosizione();
-
-		Posizione nuova = this.getPolitica().decidiDirezione(corrente);
-		
+		Posizione nuova = null;
+		if (this.getPolitica()!=null) {
+			nuova = this.getPolitica().decidiDirezione(corrente);
+		}
 		this.tentaSpostamentoVersoPosizione(nuova);
 		final Rifiuto rifiuto = this.raccogliRifiuto();
 		if (rifiuto!=null) {

@@ -1,38 +1,37 @@
 package ama.mezzo;
 
 import java.awt.Image;
-import java.util.Random;
 
+import ama.Citta;
 import ama.Posizione;
 
 public abstract class Politica {
-	
-	private int id;
-	final private Random rnd;
 
-	public Politica() {
-		this.rnd = new Random();
+	private int id;
+	
+	private Citta citta;
+	
+	public Politica(Citta citta, int id){
+		this.citta = citta;
+		this.id = id;
 	}
+	
+	abstract public Posizione decidiDirezione(Posizione corrente);
+		
 	
 	public int getId() {
 		return this.id;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	
-	/**
-	 * @return un numero intero casuale tra -1,0,+1
-	 */
-	protected int deltaCasuale() {
-		return this.rnd.nextInt(3)-1;
+	public Citta getCitta() {
+		return this.citta;
 	}
 	
-	public abstract Image getImmagine();
-	
-	public abstract Posizione decidiDirezione(Posizione p);
+	@Override
+	public String toString() {
+		return getClass().getSimpleName()+getId();
+	}
 
 
+	abstract public Image getImmagine() ;
 }

@@ -45,14 +45,6 @@ public class Simulatore {
 	}
 	
 	/**
-	 * Facilita la creazione di un mezzo con politica di orizzontale
-	 * @return un nuovo mezzo con politica {@link Pendo}
-	 */
-	public Mezzo creaPendo() {
-		return new Mezzo(this, new Pendo(this.getCitta()));
-	}
-	
-	/**
 	 * Facilita la creazione di un mezzo con politica di spostamento casuale
 	 * @return un nuovo mezzo con politica {@link Brown}
 	 */
@@ -66,6 +58,14 @@ public class Simulatore {
 	 */
 	public Mezzo creaChaser() {
 		return new Mezzo(this, new Chase(this.getCitta()));
+	}
+	
+	/**
+	 * Facilita la creazione di un mezzo con politica di spostamento casuale
+	 * @return un nuovo mezzo con politica {@link Chaser}
+	 */
+	public Mezzo creaPendo() {
+		return new Mezzo(this, new Pendo(this.getCitta()));
 	}
 
 
