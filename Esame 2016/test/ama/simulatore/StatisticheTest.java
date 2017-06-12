@@ -1,11 +1,21 @@
 package ama.simulatore;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import ama.Posizione;
+import ama.mezzo.Brown;
+import ama.mezzo.Mezzo;
+import ama.mezzo.Pendo;
+import ama.rifiuto.Rifiuto;
 import ama.rifiuto.Vetro;
 
 public class StatisticheTest {
@@ -42,17 +52,36 @@ public class StatisticheTest {
 	
 	@Test
 	public void testRaccoltoPerMezzo() {
-		/* DA COMPLETARE VEDI DOMANDA 3 */
-		fail("VEDI DOMANDA 3");
+		Set<Rifiuto> smaltiti = new HashSet<>();
+		Vetro rBrown = creaVetroRaccoltoDaBrowniano();
+		Vetro rChaser = creaVetroRaccoltoDaChaser();
+		smaltiti.add(rBrown);
+		smaltiti.add(rChaser);
+		Map<Mezzo, Integer> raccolto = this.stats.raccoltoPerMezzo(smaltiti);
+		assertEquals(2, raccolto.size());
+		assertEquals(1, raccolto.get(rBrown.getRaccoglitore()).intValue());
 	}
-
 	
 	@Test
-	public void testRaccoltoPerPolitica() {
-		/* DA COMPLETARE VEDI DOMANDA 4 */
-		fail("VEDI DOMANDA 4");
+	public void testOrdinaMezziPerRaccolta_listaVuota() {
+		Map<Class<?>, Integer> empty = new HashMap<Class<?>, Integer>();
+		assertTrue(this.stats.ordinaPolitichePerRaccolta(empty).isEmpty());
 	}
 	
+	@Test
+	public void testOrdinaMezziPerRaccolta_Singleton() {
+		Map<Class<?>, Integer> singleton = new HashMap<Class<?>, Integer>();
+		singleton.put(Pendo.class, 1);
+		assertTrue(this.stats.ordinaPolitichePerRaccolta(singleton).contains(Pendo.class));
+	}
+	
+	@Test
+	public void testOrdinaMezziPerRaccolta_Doubleton() {
+		Map<Class<?>, Integer> doubleton = new HashMap<Class<?>, Integer>();
+		doubleton.put(Pendo.class, 1);
+		doubleton.put(Brown.class, 2);
+		assertEquals(2, this.stats.ordinaPolitichePerRaccolta(doubleton).size());
+	}
 	/*                              */
 	/* DA COMPLETARE VEDI DOMANDA 6 */
 	/*                              */

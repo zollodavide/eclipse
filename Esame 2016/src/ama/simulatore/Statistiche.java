@@ -1,16 +1,20 @@
 package ama.simulatore;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import ama.CentroDiRaccolta;
 import ama.Citta;
 import ama.mezzo.Mezzo;
+import ama.mezzo.Politica;
 import ama.rifiuto.Rifiuto;
 
 public class Statistiche {
@@ -50,7 +54,17 @@ public class Statistiche {
 
 	public Map<Mezzo, Integer> raccoltoPerMezzo(Set<Rifiuto> smaltiti) {
 		final Map<Mezzo,Integer> mezzo2quantita = new HashMap<>();
-		// DA COMPLETARE (VEDI DOMANDA 3)
+		for(Rifiuto r : smaltiti) {
+			Mezzo racc = r.getRaccoglitore();
+			if(!mezzo2quantita.containsKey(racc)) {
+				Integer cont = 1;
+				mezzo2quantita.put(racc, cont);
+			}
+			else {
+				int vecchiaQuantita = mezzo2quantita.get(racc);
+				mezzo2quantita.put(racc, ++vecchiaQuantita);
+			}
+		}
 		return mezzo2quantita;
 	}
 
@@ -66,7 +80,18 @@ public class Statistiche {
 
 	public Map<Class<?>, Integer> raccoltoPerPolitica(Set<Rifiuto> smaltiti) {
 		final Map<Class<?>,Integer> politica2quantita = new HashMap<>();
-		// DA COMPLETARE (VEDI DOMANDA 4)
+		for(Rifiuto r : smaltiti) {
+			Class<? extends Politica> pol = r.getRaccoglitore().getPolitica().getClass();
+			if(!politica2quantita.containsKey(pol)) {
+				Integer cont = 1;
+				politica2quantita.put(pol, cont);
+			}
+			else {
+				int vecchiaQuantita = politica2quantita.get(pol);
+				politica2quantita.put(pol, ++vecchiaQuantita);
+			}
+		}
+		
 		return politica2quantita;
 	}
 
@@ -81,8 +106,10 @@ public class Statistiche {
 	}
 	
 	public List<Class<?>> ordinaPolitichePerRaccolta(final Map<Class<?>, Integer> politica2quantita) {
-		// DA COMPLETARE (VEDI DOMANDA 5)
-		return Collections.emptyList();
+		List<Class<?>> politica2raccolta = new ArrayList<>();
+		politica2raccolta.addAll(politica2quantita.keySet());
+		Collections.sort(politica2raccolta, new ComparatorePolitichePerRaccolta(politica2quantita));
+		return politica2raccolta;
 	}
 
 	//  UTILE PER STAMPARE RISULTATI DOMANDA 5
@@ -92,8 +119,8 @@ public class Statistiche {
 	}
 	
 	public SortedSet<Mezzo> ordinaMezziPerRaccolta(final Map<Mezzo, Integer> mezzo2quantita) {
-		// DA COMPLETARE (VEDI DOMANDA 7)
-		return Collections.emptySortedSet();
+		SortedSet<Mezzo> risultato = new TreeSet<Mezzo>(new ComparatoreMezziPerRaccolta(mezzo2quantita));
+		return risultato;
 	}
 
 	//  UTILE PER STAMPARE RISULTATI DOMANDA 7
@@ -103,5 +130,46 @@ public class Statistiche {
 			System.out.println(posto+") "+mezzo);
 			posto++;
 		}
+	}
+	
+	
+	private class ComparatorePolitichePerRaccolta implements Comparator<Class<?>> {
+		
+		Map<Class<?>, Integer> base;
+		
+		public ComparatorePolitichePerRaccolta(Map<Class<?>, Integer> politica2quantita) {
+			this.base = politica2quantita;
+		}
+
+		@Override
+		public int compare(Class<?> p1, Class<?> p2) {
+			return this.base.get(p1) - this.base.get(p2);
+		}
+		
+	}
+	
+	
+	private class ComparatoreMezziPerRaccolta implements Comparator<Mezzo> {
+		
+		
+		Map<Mezzo, Integer> base;
+		
+		public ComparatoreMezziPerRaccolta(Map<Mezzo, Integer> politica2quantita) {
+			this.base = politica2quantita;
+		}
+
+		@Override
+		public int compare(Mezzo m1, Mezzo m2) {
+			int comp = this.base.get(m1) - this.base.get(m2);
+			
+			if(comp == 0)
+				comp = m1.getPolitica().getId() - m2.getPolitica().getId();
+			
+			if(comp == 0)
+				comp = m1.getPolitica().getClass().getSimpleName().compareTo(m2.getPolitica().getClass().getSimpleName());
+			
+			return comp;
+		}
+		
 	}
 }

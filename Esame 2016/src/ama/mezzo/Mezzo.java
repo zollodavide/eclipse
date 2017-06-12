@@ -19,7 +19,7 @@ import ama.simulatore.Simulatore;
  * classe.
  * <B>(VEDI DOMANDA 2)</B>
  */
-public class Mezzo {
+public class Mezzo{
 
 	public final static int USCITA       = 0; // in uscita verso zona di raccolta
 	public final static int RACCOLTA     = 1; // raccolta rifiuti (nella zone di raccolta)
@@ -179,6 +179,24 @@ public class Mezzo {
 
 	private boolean inCentroDiRaccolta() {
 		return getPosizione().equals(this.citta.getCentroDiRaccolta().getPosizione());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Mezzo that = (Mezzo)obj;
+		if(this.getPolitica().getClass()!=that.getPolitica().getClass())
+			return false;
+		return this.getPolitica().getId() == that.getPolitica().getId();
+	}
+
+	@Override
+	public int hashCode() {
+		return this.getPolitica().getId() + this.getPolitica().getClass().hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return this.getPolitica().toString();
 	}
 
 }
